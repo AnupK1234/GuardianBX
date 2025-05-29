@@ -1,11 +1,13 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Shield, AlertTriangle, MapPin, Users, ArrowUp, Eye, MessageCircle, Phone, Star, TrendingUp } from 'lucide-react';
+import { Shield, AlertTriangle, MapPin, Users, ArrowUp, Eye, MessageCircle, Phone, Star, TrendingUp, Bot } from 'lucide-react';
+import SafetyAssistant from '@/components/SafetyAssistant';
 
 const Index = () => {
+  const [showAssistant, setShowAssistant] = useState(false);
+
   const features = [
     {
       icon: AlertTriangle,
@@ -38,7 +40,7 @@ const Index = () => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <Shield className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">GuardianBX</span>
+              <span className="text-xl font-bold text-gray-900">Bronx Safety Network</span>
             </div>
             <div className="flex items-center space-x-4">
               <Link to="/auth" className="text-gray-600 hover:text-blue-600 transition-colors">
@@ -300,6 +302,21 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Floating Safety Assistant Button */}
+      <Button
+        onClick={() => setShowAssistant(true)}
+        className="fixed bottom-4 right-4 z-40 bg-blue-600 hover:bg-blue-700 rounded-full w-14 h-14 shadow-lg"
+        size="icon"
+      >
+        <Bot className="h-6 w-6" />
+      </Button>
+
+      {/* Safety Assistant Overlay */}
+      <SafetyAssistant 
+        isOpen={showAssistant} 
+        onClose={() => setShowAssistant(false)} 
+      />
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -307,7 +324,7 @@ const Index = () => {
             <div className="col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <Shield className="h-6 w-6" />
-                <span className="text-lg font-semibold">GuardianBX</span>
+                <span className="text-lg font-semibold">Bronx Safety Network</span>
               </div>
               <p className="text-gray-300 mb-4">
                 Empowering communities to work together for a safer Bronx. 
@@ -344,7 +361,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 GuardianBX. Made with ❤️ for The Bronx community.</p>
+            <p>&copy; 2024 Bronx Safety Network. Made with ❤️ for The Bronx community.</p>
           </div>
         </div>
       </footer>

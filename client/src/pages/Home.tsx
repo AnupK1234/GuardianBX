@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertTriangle, MapPin, TrendingUp, Clock, Shield, LogOut, Trophy, BarChart3 } from 'lucide-react';
+import { AlertTriangle, MapPin, TrendingUp, Clock, Shield, LogOut, Trophy, BarChart3, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EmergencyOverlay from '@/components/EmergencyOverlay';
 import HistoricalTrends from '@/components/HistoricalTrends';
 import CommunityLeaderboard from '@/components/CommunityLeaderboard';
+import AIMentor from '@/components/AIMentor';
+import SafetyAssistant from '@/components/SafetyAssistant';
 
 const Home = () => {
   const navigate = useNavigate();
   const [showEmergencyOverlay, setShowEmergencyOverlay] = useState(false);
+  const [showAssistant, setShowAssistant] = useState(false);
 
   const recentAlerts = [
     {
@@ -143,38 +146,46 @@ const Home = () => {
           <TabsContent value="dashboard" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Recent Alerts */}
-              <div className="lg:col-span-2">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Alerts</h2>
-                <div className="space-y-4">
-                  {recentAlerts.map((alert) => (
-                    <Card key={alert.id} className="hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center mb-2">
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium mr-2 ${getTypeColor(alert.type)}`}>
-                                {alert.type}
-                              </span>
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getUrgencyColor(alert.urgency)}`}>
-                                {alert.urgency}
-                              </span>
-                              {alert.verified && (
-                                <Shield className="h-4 w-4 ml-2 text-blue-600" />
-                              )}
-                            </div>
-                            <h3 className="font-medium text-gray-900 mb-1">{alert.title}</h3>
-                            <div className="flex items-center text-sm text-gray-500 space-x-4">
-                              <div className="flex items-center">
-                                <Clock className="h-4 w-4 mr-1" />
-                                {alert.time}
+              <div className="lg:col-span-2 space-y-8">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Alerts</h2>
+                  <div className="space-y-4">
+                    {recentAlerts.map((alert) => (
+                      <Card key={alert.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center mb-2">
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium mr-2 ${getTypeColor(alert.type)}`}>
+                                  {alert.type}
+                                </span>
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getUrgencyColor(alert.urgency)}`}>
+                                  {alert.urgency}
+                                </span>
+                                {alert.verified && (
+                                  <Shield className="h-4 w-4 ml-2 text-blue-600" />
+                                )}
                               </div>
-                              <span>by {alert.reporter}</span>
+                              <h3 className="font-medium text-gray-900 mb-1">{alert.title}</h3>
+                              <div className="flex items-center text-sm text-gray-500 space-x-4">
+                                <div className="flex items-center">
+                                  <Clock className="h-4 w-4 mr-1" />
+                                  {alert.time}
+                                </div>
+                                <span>by {alert.reporter}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
+                {/* AI Mentor Section */}
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">AI Safety Mentor</h2>
+                  <AIMentor />
                 </div>
               </div>
 
@@ -250,9 +261,24 @@ const Home = () => {
         </Tabs>
       </main>
 
+      {/* Floating Safety Assistant Button */}
+      <Button
+        onClick={() => setShowAssistant(true)}
+        className="fixed bottom-4 right-4 z-40 bg-blue-600 hover:bg-blue-700 rounded-full w-14 h-14 shadow-lg"
+        size="icon"
+      >
+        <Bot className="h-6 w-6" />
+      </Button>
+
+      {/* Overlays */}
       <EmergencyOverlay 
         isOpen={showEmergencyOverlay} 
         onClose={() => setShowEmergencyOverlay(false)} 
+      />
+      
+      <SafetyAssistant 
+        isOpen={showAssistant} 
+        onClose={() => setShowAssistant(false)} 
       />
     </div>
   );
