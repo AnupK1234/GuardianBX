@@ -40,7 +40,7 @@ const Index = () => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <Shield className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">Bronx Safety Network</span>
+              <span className="text-xl font-bold text-gray-900">GuardianBX</span>
             </div>
             <div className="flex items-center space-x-4">
               <Link to="/auth" className="text-gray-600 hover:text-blue-600 transition-colors">
@@ -324,7 +324,7 @@ const Index = () => {
             <div className="col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <Shield className="h-6 w-6" />
-                <span className="text-lg font-semibold">Bronx Safety Network</span>
+                <span className="text-lg font-semibold">GuardianBX</span>
               </div>
               <p className="text-gray-300 mb-4">
                 Empowering communities to work together for a safer Bronx. 
@@ -361,7 +361,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Bronx Safety Network. Made with ❤️ for The Bronx community.</p>
+            <p>&copy; 2024 GuardianBX. Made with ❤️ for The Bronx community.</p>
           </div>
         </div>
       </footer>
