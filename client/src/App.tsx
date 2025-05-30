@@ -14,6 +14,8 @@ import Feed from "./pages/Feed";
 import MyReports from "./pages/MyReports";
 import NotFound from "./pages/NotFound";
 import AIMentor from "./components/mentor/AIMentor";
+import 'leaflet/dist/leaflet.css';
+
 
 const queryClient = new QueryClient();
 
