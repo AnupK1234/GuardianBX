@@ -1,104 +1,87 @@
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Clock, Eye, Plus, FileText } from 'lucide-react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Clock, Eye, Plus, FileText } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import { userReports } from "../utils/constant.js";
 
 const MyReports = () => {
-  const [filterBy, setFilterBy] = useState('all');
+  const [filterBy, setFilterBy] = useState("all");
 
-  const userReports = [
-    {
-      id: 1,
-      type: 'Hazard',
-      title: 'Large pothole on E 161st St',
-      location: 'E 161st St & River Ave',
-      submittedDate: '2024-01-15',
-      status: 'Under Review',
-      urgency: 'Medium',
-      views: 45,
-      upvotes: 12,
-      lastUpdate: '2 days ago'
-    },
-    {
-      id: 2,
-      type: 'Environmental',
-      title: 'Broken streetlight reported',
-      location: 'Grand Concourse & E 149th St',
-      submittedDate: '2024-01-10',
-      status: 'Resolved',
-      urgency: 'Low',
-      views: 28,
-      upvotes: 15,
-      lastUpdate: '1 week ago'
-    },
-    {
-      id: 3,
-      type: 'Crime',
-      title: 'Vandalism in community center',
-      location: 'Bronx Community Center',
-      submittedDate: '2024-01-08',
-      status: 'Pending',
-      urgency: 'Medium',
-      views: 63,
-      upvotes: 8,
-      lastUpdate: '3 days ago'
-    },
-    {
-      id: 4,
-      type: 'Hazard',
-      title: 'Loose manhole cover',
-      location: 'Webster Ave & E 170th St',
-      submittedDate: '2024-01-05',
-      status: 'Resolved',
-      urgency: 'High',
-      views: 89,
-      upvotes: 24,
-      lastUpdate: '2 weeks ago'
-    }
-  ];
-
-  const getTypeColor = (type: string) => {
+  const getTypeColor = (type) => {
     switch (type) {
-      case 'Crime': return 'bg-red-500';
-      case 'Hazard': return 'bg-orange-500';
-      case 'Environmental': return 'bg-green-500';
-      default: return 'bg-gray-500';
+      case "Crime":
+        return "bg-red-500";
+      case "Hazard":
+        return "bg-orange-500";
+      case "Environmental":
+        return "bg-green-500";
+      default:
+        return "bg-gray-500";
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
-      case 'Resolved': return 'text-green-600 bg-green-50';
-      case 'Under Review': return 'text-blue-600 bg-blue-50';
-      case 'Pending': return 'text-yellow-600 bg-yellow-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case "Resolved":
+        return "text-green-600 bg-green-50";
+      case "Under Review":
+        return "text-blue-600 bg-blue-50";
+      case "Pending":
+        return "text-yellow-600 bg-yellow-50";
+      default:
+        return "text-gray-600 bg-gray-50";
     }
   };
 
-  const getUrgencyColor = (urgency: string) => {
+  const getUrgencyColor = (urgency) => {
     switch (urgency) {
-      case 'High': return 'text-red-600 bg-red-50';
-      case 'Medium': return 'text-orange-600 bg-orange-50';
-      case 'Low': return 'text-green-600 bg-green-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case "High":
+        return "text-red-600 bg-red-50";
+      case "Medium":
+        return "text-orange-600 bg-orange-50";
+      case "Low":
+        return "text-green-600 bg-green-50";
+      default:
+        return "text-gray-600 bg-gray-50";
     }
   };
 
-  const filteredReports = userReports.filter(report => {
-    if (filterBy === 'all') return true;
-    return report.status.toLowerCase().replace(' ', '-') === filterBy;
+  const filteredReports = userReports.filter((report) => {
+    if (filterBy === "all") return true;
+    return report.status.toLowerCase().replace(" ", "-") === filterBy;
   });
 
   const stats = {
     total: userReports.length,
-    resolved: userReports.filter(r => r.status === 'Resolved').length,
-    pending: userReports.filter(r => r.status === 'Pending').length,
-    underReview: userReports.filter(r => r.status === 'Under Review').length
+    resolved: userReports.filter((r) => r.status === "Resolved").length,
+    pending: userReports.filter((r) => r.status === "Pending").length,
+    underReview: userReports.filter((r) => r.status === "Under Review").length,
   };
+
+  const statusData = [
+    { name: "Resolved", value: stats.resolved },
+    { name: "Under Review", value: stats.underReview },
+    { name: "Pending", value: stats.pending },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -127,35 +110,64 @@ const MyReports = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
+              <div className="text-2xl font-bold text-gray-900">
+                {stats.total}
+              </div>
               <div className="text-sm text-gray-600">Total Reports</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-green-600">{stats.resolved}</div>
+              <div className="text-2xl font-bold text-green-600">
+                {stats.resolved}
+              </div>
               <div className="text-sm text-gray-600">Resolved</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.underReview}</div>
+              <div className="text-2xl font-bold text-blue-600">
+                {stats.underReview}
+              </div>
               <div className="text-sm text-gray-600">Under Review</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-yellow-600">{stats.pending}</div>
+              <div className="text-2xl font-bold text-yellow-600">
+                {stats.pending}
+              </div>
               <div className="text-sm text-gray-600">Pending</div>
             </CardContent>
           </Card>
         </div>
 
+        {/* Status Distribution Chart */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Status Distribution</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={statusData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#8884d8" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
         {/* Controls */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center space-x-2">
             <FileText className="h-5 w-5 text-gray-600" />
-            <span className="text-gray-700 font-medium">Your submitted reports</span>
+            <span className="text-gray-700 font-medium">
+              Your submitted reports
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-600">Filter by status:</span>
@@ -183,7 +195,9 @@ const MyReports = () => {
               {filteredReports.length === 0 ? (
                 <div className="text-center py-8">
                   <FileText className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                  <p className="text-gray-600">No reports found for the selected filter.</p>
+                  <p className="text-gray-600">
+                    No reports found for the selected filter.
+                  </p>
                 </div>
               ) : (
                 filteredReports.map((report) => (
@@ -194,21 +208,25 @@ const MyReports = () => {
                           <div className="flex-1">
                             {/* Header */}
                             <div className="flex items-center mb-2">
-                              <Badge 
-                                variant="secondary" 
-                                className={`mr-2 ${getTypeColor(report.type)} text-white`}
+                              <Badge
+                                variant="secondary"
+                                className={`mr-2 ${getTypeColor(
+                                  report.type
+                                )} text-white`}
                               >
                                 {report.type}
                               </Badge>
-                              <Badge 
+                              <Badge
                                 variant="outline"
                                 className={getStatusColor(report.status)}
                               >
                                 {report.status}
                               </Badge>
-                              <Badge 
+                              <Badge
                                 variant="outline"
-                                className={`ml-2 ${getUrgencyColor(report.urgency)}`}
+                                className={`ml-2 ${getUrgencyColor(
+                                  report.urgency
+                                )}`}
                               >
                                 {report.urgency}
                               </Badge>
@@ -218,14 +236,19 @@ const MyReports = () => {
                             <h3 className="font-semibold text-gray-900 mb-1">
                               {report.title}
                             </h3>
-                            <p className="text-sm text-gray-600 mb-2">{report.location}</p>
+                            <p className="text-sm text-gray-600 mb-2">
+                              {report.location}
+                            </p>
 
                             {/* Metadata */}
                             <div className="flex items-center justify-between">
                               <div className="flex items-center text-sm text-gray-500 space-x-4">
                                 <div className="flex items-center">
                                   <Clock className="h-4 w-4 mr-1" />
-                                  Submitted {new Date(report.submittedDate).toLocaleDateString()}
+                                  Submitted{" "}
+                                  {new Date(
+                                    report.submittedDate
+                                  ).toLocaleDateString()}
                                 </div>
                                 <div className="flex items-center">
                                   <Eye className="h-4 w-4 mr-1" />
