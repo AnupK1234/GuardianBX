@@ -92,6 +92,7 @@ const Home = () => {
               <nav className="flex space-x-4">
                 <Link to="/map" className="text-gray-600 hover:text-blue-600 transition-colors">Map</Link>
                 <Link to="/feed" className="text-gray-600 hover:text-blue-600 transition-colors">Feed</Link>
+                <Link to="/mentor" className="text-gray-600 hover:text-blue-600 transition-colors">AI Assistant</Link>
                 <Link to="/my-reports" className="text-gray-600 hover:text-blue-600 transition-colors">My Reports</Link>
               </nav>
               <Button variant="ghost" size="sm" onClick={handleLogout}>

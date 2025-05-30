@@ -13,6 +13,7 @@ import ReportDetails from "./pages/ReportDetails";
 import Feed from "./pages/Feed";
 import MyReports from "./pages/MyReports";
 import NotFound from "./pages/NotFound";
+import AIMentor from "./components/mentor/AIMentor";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +31,8 @@ const App = () => (
           <Route path="/map" element={<Map />} />
           <Route path="/report/:id" element={<ReportDetails />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/my-reports" element={<MyReports />} />
+          <Route path="/mentor" element={<AIMentor />} />
+          <Route path="/my-reports" element={< MyReports />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
