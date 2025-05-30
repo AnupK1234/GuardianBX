@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,21 +15,56 @@ const Report = () => {
   const [urgency, setUrgency] = useState('Low');
   const [anonymous, setAnonymous] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    incidentType: '',
+    location: '',
+    description: '',
+    photo: null,
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Show success and redirect
-      alert('Report submitted successfully! Thank you for helping keep our community safe.');
-      navigate('/home');
-    }, 1500);
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
   };
 
-  const getUrgencyColor = (level: string) => {
+  const handleFileChange = (e) => {
+    setFormData(prevState => ({
+      ...prevState,
+      photo: e.target.files[0]
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const data = new FormData();
+    data.append('incidentType', formData.incidentType);
+    data.append('location', formData.location);
+    data.append('description', formData.description);
+    data.append('urgency', urgency);
+    // data.append('anonymous', anonymous);
+    if (formData.photo) {
+      data.append('photo', formData.photo);
+    }
+
+    try {
+      const response = await axios.post('/reports', data);
+      console.log(response.data);
+      alert('Report submitted successfully!');
+      navigate('/home');
+    } catch (error) {
+      console.error('Error submitting report:', error);
+      alert('Error submitting report.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const getUrgencyColor = (level) => {
     switch (level) {
       case 'High': return 'bg-red-500';
       case 'Medium': return 'bg-orange-500';
@@ -68,7 +103,7 @@ const Report = () => {
               {/* Incident Type */}
               <div className="space-y-2">
                 <Label htmlFor="incidentType">Incident Type *</Label>
-                <Select required>
+                <Select required onValueChange={(value) => setFormData({...formData, incidentType: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select incident type" />
                   </SelectTrigger>
@@ -91,6 +126,8 @@ const Report = () => {
                     placeholder="Enter address or landmark in The Bronx"
                     className="pl-10"
                     required
+                    value={formData.location}
+                    onChange={handleChange}
                   />
                 </div>
                 <p className="text-sm text-gray-500">
@@ -106,6 +143,8 @@ const Report = () => {
                   placeholder="Describe the incident in detail..."
                   className="min-h-[120px]"
                   required
+                  value={formData.description}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -118,7 +157,7 @@ const Report = () => {
                     <label htmlFor="photo" className="cursor-pointer text-blue-600 hover:text-blue-500">
                       Click to upload a photo
                     </label>
-                    <input id="photo" type="file" accept="image/*" className="hidden" />
+                    <input id="photo" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
                   </div>
                   <p className="text-xs text-gray-500 mt-1">PNG, JPG up to 10MB</p>
                 </div>
@@ -161,8 +200,8 @@ const Report = () => {
               </div>
 
               {/* Submit Button */}
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700"
                 disabled={isSubmitting}
               >
