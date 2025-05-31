@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertTriangle, MapPin, TrendingUp, Clock, Shield, LogOut, Trophy, BarChart3, Bot } from 'lucide-react';
+import { AlertTriangle, MapPin, TrendingUp, Clock, Shield, LogOut, Trophy, BarChart3, Bot, Siren } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -80,6 +80,15 @@ const Home = () => {
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-900">Safety Dashboard</h1>
             <div className="flex items-center space-x-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate('/sos')}
+                className="bg-red-50 border-red-200 text-red-700 hover:bg-red-100"
+              >
+                <Siren className="h-4 w-4 mr-2" />
+                SOS 🚨 
+              </Button>
               <Button
                 variant="outline"
                 size="sm"
