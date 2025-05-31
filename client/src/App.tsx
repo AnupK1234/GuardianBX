@@ -15,6 +15,7 @@ import MyReports from "./pages/MyReports";
 import NotFound from "./pages/NotFound";
 import AIMentor from "./components/mentor/AIMentor";
 import 'leaflet/dist/leaflet.css';
+import EmergencySOS from "./pages/EmergencySOS";
 
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/report/:id" element={<ReportDetails />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/mentor" element={<AIMentor />} />
+          <Route path="/sos" element={<EmergencySOS />} />
           <Route path="/my-reports" element={< MyReports />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
