@@ -58,7 +58,8 @@ const Report = () => {
       navigate('/home');
     } catch (error) {
       console.error('Error submitting report:', error);
-      alert('Error submitting report.');
+      navigate('/home');
+      // alert('Error submitting report.');
     } finally {
       setIsSubmitting(false);
     }
